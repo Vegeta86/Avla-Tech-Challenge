@@ -1,0 +1,46 @@
+<div class="container" [formGroup]="dataFormGroup">
+    <div class="p-card">
+        <p-card header="Seleccione">
+            <h3>Familia</h3>
+            <p-dropdown formControlName="selectedFamily" (onClick)="onChange($event)" [options]="familyOptions"
+                placeholder="Seleccione Familia">
+            </p-dropdown>
+            <h3>Metrica</h3>
+            <p-dropdown formControlName="selectedMetric" (onClick)="onChange($event)" [options]="metricsOptions"
+                placeholder="Seleccione Metrica">
+            </p-dropdown>
+            <h3>Año</h3>
+            <p-dropdown formControlName="selectedDate" (onClick)="onChange($event)" [options]="yearsOptions"
+                placeholder="Seleccione Año">
+            </p-dropdown>
+            <br><br>
+            <p-button label="Buscar" (onClick)="calculate()"></p-button>
+        </p-card>
+    </div>
+
+    <div class="p-card">
+        <p-card header="Datos">
+            <p-table *ngIf="showData" [value]="filteredData" [paginator]="true" [rows]="10"
+                [showCurrentPageReport]="true" [tableStyle]="{'min-width': '50rem'}"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10,25,50]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Mes</th>
+                        <th>{{dataFormGroup.controls['selectedMetric'].value}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-filteredData>
+                    <tr>
+                        <td>{{filteredData.date | date :'MMMM'}}</td>
+                        <td>{{filteredData.amount}}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="paginatorleft">
+                </ng-template>
+                <ng-template pTemplate="paginatorright">
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+</div>
