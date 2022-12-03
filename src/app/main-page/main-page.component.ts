@@ -61,7 +61,6 @@ export class MainPageComponent implements OnInit {
     }
     return this.yearsOptions;
   }
-
   calculate() {
     if (this.dataFormGroup.controls['selectedFamily'].valid &&
       this.dataFormGroup.controls['selectedDate'].valid && this.dataFormGroup.controls['selectedMetric'].valid) {
@@ -75,7 +74,6 @@ export class MainPageComponent implements OnInit {
       });
       console.log(this.filteredData);
 
-      this.showData = true;
       switch (this.dataFormGroup.controls['selectedMetric'].value) {
         case "Total":
           this.calculateTotal(this.filteredData);
@@ -87,13 +85,14 @@ export class MainPageComponent implements OnInit {
           this.calculateMax(this.filteredData);
           break;
         case "Mínimo":
-          //this.calculateMin(this.filteredData);
+          this.calculateMin(this.filteredData);
           break;
       }
+      this.showData = true;
+
     }
 
   }
-
   calculateTotal(data: FamilyData[]) {
     let totalMonth = 0;
     let months: string[] = []
@@ -110,12 +109,9 @@ export class MainPageComponent implements OnInit {
       }
       totalMonth = 0;
     }
-    this.filteredData = []
     this.filteredData = filtered;
   }
-
   calculateAv(data: FamilyData[]) {
-    console.log('calcular promedio');
     let total = 0;
     let count = 1;
     let months: string[] = []
@@ -138,14 +134,38 @@ export class MainPageComponent implements OnInit {
       total = 0;
       count = 0;
     }
-    this.filteredData = []
     this.filteredData = filtered;
   }
   calculateMax(data: FamilyData[]) {
-
+    let months: string[] = []
+    let filtered: FamilyData[] = []
+    for (let i = 0; i < data.length; i++) {
+      if (i > 0 && data[i - 1].date.substring(5, 7) === data[i].date.substring(5, 7)) {
+        data.sort((a, b) => {
+          return a.amount - b.amount;
+        });
+      }
+      if (!months.includes(data[i].date.substring(5, 7))) {
+        months.push(data[i].date.substring(5, 7))
+        filtered.push(data[i])
+      }
+    }
+    this.filteredData = filtered;
   }
   calculateMin(data: FamilyData[]) {
-
+    let months: string[] = []
+    let filtered: FamilyData[] = []
+    for (let i = 0; i < data.length; i++) {
+      if (i > 0 && data[i].date.substring(5, 7) === data[i - 1].date.substring(5, 7)) {
+        data.sort((a, b) => {
+          return b.amount - a.amount;
+        });
+      }
+      if (!months.includes(data[i].date.substring(5, 7))) {
+        months.push(data[i].date.substring(5, 7))
+        filtered.push(data[i])
+      }
+    }
+    this.filteredData = filtered;
   }
-
 }

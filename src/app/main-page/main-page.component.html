@@ -1,20 +1,17 @@
 <div class="container" [formGroup]="dataFormGroup">
     <div class="p-card">
         <p-card header="Seleccione">
-            <h3>Familia</h3>
-            <p-dropdown formControlName="selectedFamily" (onClick)="onChange($event)" [options]="familyOptions"
-                placeholder="Seleccione Familia">
-            </p-dropdown>
-            <h3>Metrica</h3>
-            <p-dropdown formControlName="selectedMetric" (onClick)="onChange($event)" [options]="metricsOptions"
-                placeholder="Seleccione Metrica">
-            </p-dropdown>
-            <h3>Año</h3>
-            <p-dropdown formControlName="selectedDate" (onClick)="onChange($event)" [options]="yearsOptions"
-                placeholder="Seleccione Año">
-            </p-dropdown>
-            <br><br>
-            <p-button label="Buscar" (onClick)="calculate()"></p-button>
+                <p-dropdown formControlName="selectedFamily" (onClick)="onChange($event)" [options]="familyOptions"
+                    placeholder="Familia">
+                </p-dropdown>
+                <p-dropdown formControlName="selectedMetric" (onClick)="onChange($event)" [options]="metricsOptions"
+                    placeholder="Metrica">
+                </p-dropdown>
+                <p-dropdown formControlName="selectedDate" (onClick)="onChange($event)" [options]="yearsOptions"
+                    placeholder="Año">
+                </p-dropdown>
+                <br><br>
+                <p-button label="Buscar" (onClick)="calculate()"></p-button>
         </p-card>
     </div>
 
